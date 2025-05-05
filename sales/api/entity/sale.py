@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
-from entity.sales_status import SaleStatus
+from sales.api.entity.sales_status import SaleStatus
 from pydantic import BaseModel
 import uuid
 
@@ -14,13 +14,6 @@ class Sale:
     sales_date: datetime
     status: SaleStatus
 
-    # def __init__(self, sale):
-    #     self.sale_id = sale['sale_id']
-    #     self.product_id = sale['product_id']
-    #     self.quantity = sale['quantity']
-    #     self.price_per_unit = sale['price_per_unit']
-    #     self.sales_date = sale['sales_date']
-    #     self.status = sale['status']
 
     def make_sale(self):
         self.status = SaleStatus.SOLD
@@ -41,6 +34,14 @@ class Sale:
             sales_date=datetime.utcnow(),
             status=SaleStatus.PENDING   
         )
+    def to_dict(self):
+        return {
+            "product_id": self.product_id, 
+            "quantity": self.quantity,
+            "price_per_unit": self.price_per_unit,
+            "sales_date": self.sales_date.isoformat() if isinstance(self.sales_date, datetime) else self.sales_date,
+            "status": self.status.value
+        }
     
     
 class SaleOrderCreate(BaseModel):

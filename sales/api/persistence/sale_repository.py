@@ -1,4 +1,4 @@
-from datetime import datetime
+from fastapi import HTTPException
 import psycopg2 as psy
 
 
@@ -14,6 +14,8 @@ class SaleRepository:
             cursor.execute(query, values)
             if fetch:
                 result = cursor.fetchall()
+            if cursor.rowcount == 0:
+                raise HTTPException(f"Nenhuma venda com ID {values[0]} foi encontrada.")
             connection.commit()
             cursor.close()
             connection.close()
@@ -37,11 +39,25 @@ class SaleRepository:
     
         self.__execute_query(query, values)
     
-    def _update_sale(self, sale_id):
+    def _cancel_sale(self, sale_id):
         query = '''UPDATE oltp.sales SET status = %s WHERE sale_id = %s'''
         values = ('CANCELED', sale_id)
 
         self.__execute_query(query, values)
 
+    def _find_sale(self, sale_id):
+        query = '''SELECT * FROM oltp.sales WHERE sale_Id = %s'''
+        values= (sale_id)
+
+        self.__execute_query(query, values, fetch=True)
 
 
+_db_config = {
+    "dbname": "sales_db",
+    "user": "user",
+    "password": "password",
+    "host": "localhost",
+    "port": 5432
+}
+
+sales_repository = SaleRepository(_db_config)

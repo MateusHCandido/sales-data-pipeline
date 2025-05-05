@@ -1,7 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS oltp
 
 CREATE TABLE IF NOT EXISTS oltp.sales(
-    sale_id INT PRIMARY KEY,
+    sale_id SERIAL PRIMARY KEY,
     product_id INT NOT NULL,
     quantity INT NOT NULL,
     price_per_unit DECIMAL(10,2) NOT NULL,

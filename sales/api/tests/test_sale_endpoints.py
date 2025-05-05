@@ -34,7 +34,7 @@ async def test_create_sale_order():
 
 @pytest.mark.asyncio
 async def test_cancel_sale_order():
-    sale_id = 10  # ID de venda existente para o teste
+    sale_id = 1  # ID de venda existente para o teste
 
     async with AsyncClient(app=sale_router, base_url='http://localhost:8000') as ac:
         response = await ac.put(f'sale/{sale_id}')
@@ -53,7 +53,7 @@ async def test_cancel_sale_order():
 
 @pytest.mark.asyncio
 async def test_cancel_sale_order_not_found():
-    sale_id = 9999 
+    sale_id = 99999999999
 
     async with AsyncClient(app=sale_router, base_url='http://localhost:8000') as ac:
         response = await ac.put(f'/sale/{sale_id}')

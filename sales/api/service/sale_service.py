@@ -5,7 +5,8 @@ from sales.api.entity.sale import Sale
 
 from datetime import datetime
 
-from sales.api.service.logger_service import generate_result_log
+# from sales.api.service.logger_service import generate_result_log
+from sales.api.messages.consumer_data_lake import generate_result_log
 
 
 class SaleService:
@@ -62,7 +63,7 @@ class SaleService:
         if success is True:
             return JSONResponse(
                 status_code= status_code,
-                content={"success": True, 
+                 content={"success": True, 
                         "data": data,
                         "message": str(message)
                     }   
